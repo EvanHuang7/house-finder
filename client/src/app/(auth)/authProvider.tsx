@@ -160,6 +160,8 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
     return <>{children}</>;
   }
 
+  // Signup (no user), signin (no user) and dashboard page routes cases
+  // Authenticator component only displayed when no logged in user
   return (
     <div className="h-full">
       <Authenticator
