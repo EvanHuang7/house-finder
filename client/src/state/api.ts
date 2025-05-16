@@ -1,3 +1,4 @@
+import { cleanParams, createNewUserInDatabase, withToast } from "@/lib/utils";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import {
@@ -40,7 +41,18 @@ export const api = createApi({
 
           let userDetailsResponse = await fetchWithBQ(endpoint);
 
-          // TODO: if user doesn't exist, create new user
+          // if user doesn't exist, create new user
+          if (
+            userDetailsResponse.error &&
+            userDetailsResponse.error.status === 404
+          ) {
+            userDetailsResponse = await createNewUserInDatabase(
+              user,
+              idToken,
+              userRole,
+              fetchWithBQ
+            );
+          }
 
           return {
             data: {
@@ -57,4 +69,4 @@ export const api = createApi({
   }),
 });
 
-export const {} = api;
+export const { useGetAuthUserQuery } = api;
