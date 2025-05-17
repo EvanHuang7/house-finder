@@ -25,7 +25,7 @@ const SingleListing = () => {
         <div className="order-2 md:order-1">
           <PropertyOverview propertyId={propertyId} />
           <PropertyDetails propertyId={propertyId} />
-          <PropertyLocation propertyId={propertyId} />
+          {/* <PropertyLocation propertyId={propertyId} /> */}
         </div>
 
         <div className="order-1 md:order-2">
