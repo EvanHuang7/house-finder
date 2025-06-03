@@ -23,6 +23,9 @@ const Listings = () => {
   const [removeFavorite] = useRemoveFavoritePropertyMutation();
   const viewMode = useAppSelector((state) => state.global.viewMode);
   const filters = useAppSelector((state) => state.global.filters);
+  const isFiltersFullOpen = useAppSelector(
+    (state) => state.global.isFiltersFullOpen
+  );
 
   const {
     data: properties,
@@ -55,44 +58,47 @@ const Listings = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-sm px-4 font-bold">
+      <h3 className="text-sm font-bold mb-2">
         {properties.length}{" "}
         <span className="text-gray-700 font-normal">
           Places in {filters.location}
         </span>
       </h3>
-      <div className="flex">
-        <div className="p-4 w-full">
-          {properties?.map((property) =>
-            viewMode === "grid" ? (
-              <Card
-                key={property.id}
-                property={property}
-                isFavorite={
-                  tenant?.favorites?.some(
-                    (fav: Property) => fav.id === property.id
-                  ) || false
-                }
-                onFavoriteToggle={() => handleFavoriteToggle(property.id)}
-                showFavoriteButton={!!authUser}
-                propertyLink={`/search/${property.id}`}
-              />
-            ) : (
-              <CardCompact
-                key={property.id}
-                property={property}
-                isFavorite={
-                  tenant?.favorites?.some(
-                    (fav: Property) => fav.id === property.id
-                  ) || false
-                }
-                onFavoriteToggle={() => handleFavoriteToggle(property.id)}
-                showFavoriteButton={!!authUser}
-                propertyLink={`/search/${property.id}`}
-              />
-            )
-          )}
-        </div>
+
+      <div
+        className={`grid grid-cols-1 ${
+          isFiltersFullOpen ? "lg:grid-cols-2" : "lg:grid-cols-3"
+        } gap-4`}
+      >
+        {properties?.map((property) =>
+          viewMode === "grid" ? (
+            <Card
+              key={property.id}
+              property={property}
+              isFavorite={
+                tenant?.favorites?.some(
+                  (fav: Property) => fav.id === property.id
+                ) || false
+              }
+              onFavoriteToggle={() => handleFavoriteToggle(property.id)}
+              showFavoriteButton={!!authUser}
+              propertyLink={`/search/${property.id}`}
+            />
+          ) : (
+            <CardCompact
+              key={property.id}
+              property={property}
+              isFavorite={
+                tenant?.favorites?.some(
+                  (fav: Property) => fav.id === property.id
+                ) || false
+              }
+              onFavoriteToggle={() => handleFavoriteToggle(property.id)}
+              showFavoriteButton={!!authUser}
+              propertyLink={`/search/${property.id}`}
+            />
+          )
+        )}
       </div>
     </div>
   );
