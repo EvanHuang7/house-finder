@@ -5,9 +5,15 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleGoToHomePage = async () => {
+    router.push("/search");
+  };
 
   return (
     <div className="relative h-screen">
@@ -39,11 +45,14 @@ const HeroSection = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by city, neighborhood or address"
+              placeholder="View properties by searching by city, neighborhood or address"
               className="w-full max-w-lg rounded-none rounded-l-xl border-none bg-white h-12"
             />
-            <Button className="bg-secondary-500 text-white rounded-none rounded-r-xl border-none hover:bg-secondary-600 h-12">
-              Search
+            <Button
+              className="bg-secondary-500 text-white rounded-none rounded-r-xl border-none hover:bg-secondary-600 h-12"
+              onClick={() => handleGoToHomePage()}
+            >
+              Go
             </Button>
           </div>
         </div>

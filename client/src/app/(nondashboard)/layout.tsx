@@ -10,7 +10,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data: authUser, isLoading: authLoading } = useGetAuthUserQuery();
   const router = useRouter();
   const pathname = usePathname();
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (authUser) {
@@ -20,13 +19,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         (userRole === "manager" && pathname === "/")
       ) {
         router.push("/managers/properties", { scroll: false });
-      } else {
-        setIsLoading(false);
       }
     }
   }, [authUser, router, pathname]);
-
-  if (authLoading || isLoading) return <>Loading...</>;
 
   return (
     <div className="h-full w-full">
